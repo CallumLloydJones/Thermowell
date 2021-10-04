@@ -44,37 +44,33 @@ timeFormat      general;
 timePrecision   6;
 
 runTimeModifiable true;
-
 functions
 {   
 
-//  mapFields1
-//{
-    // Mandatory entries (unmodifiable)
-//    type            mapFields;
-//    libs            (fieldFunctionObjects);
+surfaces
+     {
+         type            surfaces;
+         fields          (lm);
+         surfaceFormat   raw;
+		 interpolationScheme  cellPointFace;
+         formatOptions
+         {
+             boundaryData
+             {
+                 format  ascii;
 
-    // Mandatory (inherited) entries (runtime modifiable)
-//    fields          (forces:tractions);
-//    mapRegion       constant;
-//    mapMethod       cellVolumeWeight;
-//    consistent      false;
-
-    // Optional entries (runtime modifiable)
-//    patchMapMethod  directAMI;  // AMI-related entry
-//    patchMap        (Thermowell solidThermowell);
-
-    // Optional (inherited) entries
-//    region          region0;
-//    enabled         true;
- //   log             true;
-  //  timeStart       0;
-//    timeEnd         0.01;
-  //  executeControl  timeStep;
-    //executeInterval 1;
-//    writeControl    timeStep;
-  //  writeInterval   1;
-//} 
+             }
+         }
+         surfaces
+         {
+             fixed
+             {
+                 type            patch;
+                 patches         (fixed);
+                 interpolate     true;
+             }
+         }
+     }
 
 }
 //
