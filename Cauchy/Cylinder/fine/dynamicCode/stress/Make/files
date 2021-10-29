@@ -1,0 +1,6 @@
+/* dynamicCode:
+ * SHA1 = 306ffadb80f80af26842c79303e45c0cd2792afe
+ */
+functionObjectTemplate.C
+
+LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libstress_306ffadb80f80af26842c79303e45c0cd2792afe

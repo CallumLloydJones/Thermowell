@@ -1,0 +1,6 @@
+/* dynamicCode:
+ * SHA1 = 5648290fc188b2f25a2484b64da9bc86a3f32b94
+ */
+functionObjectTemplate.C
+
+LIB = $(PWD)/../platforms/$(WM_OPTIONS)/lib/libtraction_5648290fc188b2f25a2484b64da9bc86a3f32b94
