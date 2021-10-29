@@ -1,0 +1,50 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 6
+Exec   : mapFieldsPar -fields (sigma) -sourceTime 0.001 -mapMethod mapNearest -noLagrangian ../Fluid
+Date   : Oct 26 2021
+Time   : 18:19:38
+Host   : "DESKTOP-JSPBMTA"
+PID    : 26106
+I/O    : uncollated
+Case   : /home/thomas/OpenFOAM/vcALE/tutorials/Callum3/Cauchy/Cylinder/Solid
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Source: ".." "Fluid"
+Target: "/home/thomas/OpenFOAM/vcALE/tutorials/Callum3/Cauchy/Cylinder" "Solid"
+Mapping method: mapNearest
+
+Create databases as time
+I/O    : uncollated
+Case   : ../Fluid
+nProcs : 1
+
+Source time: 0.001
+Target time: 0.001
+
+Create meshes
+
+Source mesh size: 104000	Target mesh size: 25410
+
+
+Creating and mapping fields for time 0.001
+
+Creating mesh-to-mesh addressing for region0 and region0 regions using mapNearest
+    Overlap volume: 3.22369e-06
+Creating AMI between source patch Thermowell and target patch Thermowell using mapNearestAMI
+    AMI: Creating addressing and weights between 2000 source faces and 3322 target faces
+    AMI: Patch source sum(weights) min/max/average = 1, 1, 1
+    AMI: Patch target sum(weights) min/max/average = 1, 1, 1
+    creating new field sigma
+
+End
+

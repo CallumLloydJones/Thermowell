@@ -1,0 +1,70 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+Build  : 6
+Exec   : gmshToFoam Thermowell.msh
+Date   : Oct 26 2021
+Time   : 18:19:38
+Host   : "DESKTOP-JSPBMTA"
+PID    : 26104
+I/O    : uncollated
+Case   : /home/thomas/OpenFOAM/vcALE/tutorials/Callum3/Cauchy/Cylinder/Solid
+nProcs : 1
+sigFpe : Enabling floating point exception trapping (FOAM_SIGFPE).
+fileModificationChecking : Monitoring run-time modified files using timeStampMaster (fileModificationSkew 10)
+allowSystemOperations : Allowing user-supplied system call operations
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+Create time
+
+Starting to read mesh format at line 2
+Read format version 2.2  ascii 0
+
+Starting to read physical names at line 5
+Physical names:3
+    Surface 1	Bottom
+    Surface 2	Thermowell
+    Volume 3	domain
+
+Starting to read points at line 11
+Vertices to be read:5184
+Vertices read:5184
+
+Starting to read cells at line 5198
+Cells to be read:28974
+
+Mapping region 1 to Foam patch 0
+Mapping region 2 to Foam patch 1
+Mapping region 3 to Foam cellZone 0
+Cells:
+    total:25410
+    hex  :0
+    prism:0
+    pyr  :0
+    tet  :25410
+
+CellZones:
+Zone	Size
+    0	25410
+
+Skipping tag  at line 34175
+Patch 0 gets name Bottom
+Patch 1 gets name Thermowell
+
+--> FOAM Warning : 
+    From function Foam::polyMesh::polyMesh(const Foam::IOobject&, const Foam::Xfer<Foam::Field<Foam::Vector<double> > >&, const cellShapeList&, const faceListList&, const wordList&, const wordList&, const Foam::word&, const Foam::word&, const wordList&, bool)
+    in file meshes/polyMesh/polyMeshFromShapeMesh.C at line 595
+    Found 3564 undefined faces in mesh; adding to default patch.
+Finding faces of patch 0
+Finding faces of patch 1
+
+FaceZones:
+Zone	Size
+
+Writing zone 0 to cellZone domain and cellSet
+End
+
