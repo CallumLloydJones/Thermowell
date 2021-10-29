@@ -1,3 +1,0 @@
-initialConditions_vcALE.C
-
-EXE = $(FOAM_USER_APPBIN)/initialConditions_vcALE
