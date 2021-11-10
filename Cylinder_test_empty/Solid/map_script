@@ -1,0 +1,46 @@
+time="0.001"
+file="$time/sigma"
+mapmethod="mapNearest"
+sourceCase="../Fluid"
+granularity="fine"
+
+######## choose your geometry
+rm Thermowell.msh log.*
+ln -s ../Thermowell_$granularity.msh Thermowell.msh
+printf "Linking desired geometry\n"
+gmshToFoam Thermowell.msh > log.gmshToFoam
+
+######## mapping
+rm $file -f 
+printf "Mapping the fields from the desired case\n"
+mapFieldsPar -fields '(sigma)' -sourceTime $time -mapMethod "$mapmethod" -noLagrangian "$sourceCase" > log.mapFields
+
+####### get rid of "nan"s
+printf "Attempting to supress nans\n"
+	sed -i "s/nan/0/" $file
+        sed -i "s/-nan/00/" $file
+        sed -i "s/ -nan/ 0/" $file
+        sed -i "s/nan)/0)/" $file
+        sed -i "s/-nan)/0)/" $file
+        sed -i "s/(nan/(0/" $file
+        sed -i "s/(-nan/(0/" $file
+
+        sed -i "s/nan/0/" $file
+        sed -i "s/-nan/00/" $file
+        sed -i "s/ -nan/ 0/" $file
+        sed -i "s/nan)/0)/" $file
+        sed -i "s/-nan)/0)/" $file
+        sed -i "s/(nan/(0/" $file
+        sed -i "s/(-nan/(0/" $file
+
+
+        sed -i "s/nan/0/" $file
+        sed -i "s/-nan/00/" $file
+        sed -i "s/ -nan/ 0/" $file
+        sed -i "s/nan)/0)/" $file
+        sed -i "s/-nan)/0)/" $file
+        sed -i "s/(nan/(0/" $file
+        sed -i "s/(-nan/(0/" $file
+     
+errtest=$(grep -rn $time/sigma -e "nan")
+if [ -n $errtest ]; then printf "\n\t -> mapping went ok\n\n"; fi
