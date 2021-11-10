@@ -1,0 +1,325 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.2.1                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+scale 1;
+
+halfAngle    45.0;
+radHalfAngle #calc "degToRad($halfAngle)";
+
+//- dimensions of pipe [m]
+nx     -0.1;
+x      0.3;
+ny     -0.05;
+y      0.05;
+
+radius 0.01;
+mradius #calc "-1.0*$radius";
+
+bradius #calc "3.0*$radius";
+bmradius #calc "-3.0*$radius";
+
+Arc  #calc "$radius*sin($radHalfAngle)";
+nArc #calc "-1.0*$Arc";
+
+Ref  #calc "3.0*$Arc";
+nRef #calc "-3.0*$Arc";
+
+grad  2;
+igrad 0.5;
+
+xunormal 10;
+xdnormal 30;
+ynormal 10;
+refine 10;
+
+zspace 30;
+zheight 0.05;
+dheight 0.1;
+
+vertices		//list of vertices defining the geometry
+(
+    ($nx   $ny   0)				//point 0
+    ($nRef $ny   0)				//point 1
+	($nRef $nRef 0)				//point 2
+	($nx   $nRef 0)				//point 3
+    ($nx   $ny   $zheight)		//point 4
+    ($nRef $ny   $zheight)		//point 5
+	($nRef $nRef $zheight)		//point 6
+	($nx   $nRef $zheight)		//point 7
+	
+    ($nx   $Ref 0)				//point 8
+    ($nRef $Ref 0)				//point 9
+	($nRef $y   0)				//point 10
+	($nx   $y   0)				//point 11
+    ($nx   $Ref $zheight)		//point 12
+    ($nRef $Ref $zheight)		//point 13
+	($nRef $y   $zheight)		//point 14
+	($nx   $y   $zheight)		//point 15
+	
+    ($Ref $ny   0)				//point 16
+    ($x   $ny   0)				//point 17
+	($x   $nRef 0)				//point 18
+	($Ref $nRef 0)				//point 19
+    ($Ref $ny   $zheight)		//point 20
+    ($x   $ny   $zheight)		//point 21
+	($x   $nRef $zheight)		//point 22
+	($Ref $nRef $zheight)		//point 23
+	
+    ($Ref $Ref  0)				//point 24
+    ($x   $Ref  0)				//point 25
+	($x   $y    0)				//point 26
+	($Ref $y    0)				//point 27
+    ($Ref $Ref  $zheight)		//point 28
+    ($x   $Ref  $zheight)		//point 29
+	($x   $y    $zheight)		//point 30
+	($Ref $y    $zheight)		//point 31
+	
+	($nArc $nArc 0)				//point 32
+	($Arc  $nArc 0)				//point 33
+	($Arc  $Arc  0)				//point 34
+	($nArc $Arc  0)				//point 35
+	($nArc $nArc $zheight)		//point 36
+	($Arc  $nArc $zheight)		//point 37
+	($Arc  $Arc  $zheight)		//point 38
+	($nArc $Arc  $zheight)		//point 39
+	
+	
+	($nx   $ny   $dheight)		//point 40
+    ($nRef $ny   $dheight)		//point 41
+	($nRef $nRef $dheight)		//point 42
+	($nx   $nRef $dheight)		//point 43
+    ($nx   $Ref $dheight)		//point 44
+    ($nRef $Ref $dheight)		//point 45
+	($nRef $y   $dheight)		//point 46
+	($nx   $y   $dheight)		//point 47
+    ($Ref $ny   $dheight)		//point 48
+    ($x   $ny   $dheight)		//point 49
+	($x   $nRef $dheight)		//point 50
+	($Ref $nRef $dheight)		//point 51	
+	($Ref $Ref  $dheight)		//point 52
+    ($x   $Ref  $dheight)		//point 53
+	($x   $y    $dheight)		//point 54
+	($Ref $y    $dheight)		//point 55
+	($nArc $nArc $dheight)		//point 56
+	($Arc  $nArc $dheight)		//point 57
+	($Arc  $Arc  $dheight)		//point 58
+	($nArc $Arc  $dheight)		//point 59
+	
+	(0 0 $zheight)				//point 60
+	(0 0 $dheight)				//point 61
+	
+);
+
+blocks			//defining the block which the geometry is made out of
+(
+    hex (0 1 2 3 4 5 6 7)         ($xunormal $ynormal $zspace) simpleGrading ($igrad $igrad 1)
+    hex (8 9 10 11 12 13 14 15)   ($xunormal $ynormal $zspace) simpleGrading ($igrad $grad 1)
+	hex (3 2 9 8 7 6 13 12)       ($xunormal $refine $zspace) simpleGrading ($igrad 1 1)
+
+    hex (16 17 18 19 20 21 22 23) ($xdnormal $ynormal $zspace) simpleGrading ($grad $igrad 1)
+    hex (24 25 26 27 28 29 30 31) ($xdnormal $ynormal $zspace) simpleGrading ($grad $grad 1)
+	hex (19 18 25 24 23 22 29 28) ($xdnormal $refine $zspace) simpleGrading ($grad 1 1)
+
+    hex (1 16 19 2 5 20 23 6)     ($refine $ynormal $zspace) simpleGrading (1 $igrad 1)
+    hex (9 24 27 10 13 28 31 14)  ($refine $ynormal $zspace) simpleGrading (1 $grad 1)
+	
+	hex (2 19 33 32 6 23 37 36)   ($refine $refine $zspace) simpleGrading (1 1 1)
+    hex (33 19 24 34 37 23 28 38) ($refine $refine $zspace) simpleGrading (1 1 1)
+	hex (35 34 24 9 39 38 28 13)  ($refine $refine $zspace) simpleGrading (1 1 1)
+    hex (2 32 35 9 6 36 39 13)    ($refine $refine $zspace) simpleGrading (1 1 1)
+	
+	
+	hex (4 5 6 7 40 41 42 43)     ($xunormal $ynormal $zspace) simpleGrading ($igrad $igrad 1)
+    hex (12 13 14 15 44 45 46 47) ($xunormal $ynormal $zspace) simpleGrading ($igrad $grad 1)
+	hex (7 6 13 12 43 42 45 44)   ($xunormal $refine $zspace) simpleGrading ($igrad 1 1)
+
+    hex (20 21 22 23 48 49 50 51) ($xdnormal $ynormal $zspace) simpleGrading ($grad $igrad 1)
+    hex (28 29 30 31 52 53 54 55) ($xdnormal $ynormal $zspace) simpleGrading ($grad $grad 1)
+	hex (23 22 29 28 51 50 53 52) ($xdnormal $refine $zspace) simpleGrading ($grad 1 1)
+
+    hex (5 20 23 6 41 48 51 42)   ($refine $ynormal $zspace) simpleGrading (1 $igrad 1)
+    hex (13 28 31 14 45 52 55 46) ($refine $ynormal $zspace) simpleGrading (1 $grad 1)
+	
+	hex (6 23 37 36 42 51 57 56)  ($refine $refine $zspace) simpleGrading (1 1 1)
+    hex (37 23 28 38 57 51 52 58) ($refine $refine $zspace) simpleGrading (1 1 1)
+	hex (39 38 28 13 59 58 52 45) ($refine $refine $zspace) simpleGrading (1 1 1)
+    hex (6 36 39 13 42 56 59 45)  ($refine $refine $zspace) simpleGrading (1 1 1)
+	
+    hex (36 37 38 39 56 57 58 59) ($refine $refine $zspace) simpleGrading (1 1 1)
+	
+//  hex (36 37 60 60 56 57 61 61)    ($refine $refine $zspace) simpleGrading (1 1 1)
+//	hex (60 37 38 60 61 57 58 61)    ($refine $refine $zspace) simpleGrading (1 1 1)
+//  hex (39 60 60 38 59 61 61 58)    ($refine $refine $zspace) simpleGrading (1 1 1)
+//  hex (36 60 60 39 56 61 61 59)    ($refine $refine $zspace) simpleGrading (1 1 1)
+
+	
+	
+);
+
+edges
+(   
+    arc 2 19 (0 $bmradius 0)
+    arc 6 23 (0 $bmradius $zheight)
+	arc 42 51 (0 $bmradius $dheight)
+
+    arc 19 24 ($bradius 0 0)
+	arc 23 28 ($bradius 0 $zheight)
+	arc 51 52 ($bradius 0 $dheight)
+
+    arc 9 24 (0 $bradius 0)
+    arc 13 28 (0 $bradius $zheight)	
+    arc 45 52 (0 $bradius $dheight)	
+
+    arc 2 9($bmradius 0 0)
+	arc 6 13($bmradius 0 $zheight)
+	arc 42 45($bmradius 0 $dheight)
+
+    arc 32 33 (0 $mradius 0)
+    arc 36 37 (0 $mradius $zheight)
+    arc 56 57 (0 $mradius $dheight)
+
+    arc 33 34 ($radius 0 0)
+	arc 37 38 ($radius 0 $zheight)
+	arc 57 58 ($radius 0 $dheight)
+
+    arc 35 34 (0 $radius 0)
+    arc 39 38 (0 $radius $zheight)	
+    arc 59 58 (0 $radius $dheight)	
+
+    arc 32 35 ($mradius 0 0)
+	arc 36 39 ($mradius 0 $zheight)	
+	arc 56 59 ($mradius 0 $dheight)	
+
+	
+	
+);
+
+boundary
+(
+    PipeWalls	//choose a name for the boundary
+    {
+        type wall;	//define the type of the boundary
+        faces
+        (
+			//front
+            (0 1 5 4)
+            (1 16 20 5)
+            (16 17 21 20)
+			
+			(4 5 41 40)
+			(5 20 48 41)
+			(20 21 49 48)
+			
+			//back
+			(11 10 14 15)
+			(10 27 31 14)
+			(27 26 30 31)
+			
+			(15 14 46 47)
+			(14 31 55 46)
+			(31 30 54 55)
+			
+			
+			(0 1 2 3)
+			(3 2 9 8)
+			(8 9 10 11)
+			
+			(1 16 19 2)
+			(2 19 33 32)
+			(33 19 24 34)
+			(35 34 24 9)
+			(2 32 35 9)
+			(9 24 27 10)
+			
+			(16 17 18 19)
+			(19 18 25 24)
+			(24 25 26 27)
+
+			(40 41 42 43)
+			(43 42 45 44)
+			(44 45 46 47)
+			
+			(41 48 51 42)
+			(42 51 57 56)
+			(57 51 52 58)
+			(59 58 52 45)
+			(42 56 59 45)
+			(45 52 55 46)
+			(56 57 58 59)
+			
+//			(56 57 61 61)
+//			(61 57 58 61)
+//			(59 61 61 58)
+//			(56 61 61 59) 
+   			
+			(48 49 50 51)
+			(51 50 53 52)
+			(52 53 54 55)
+		);
+	}
+    
+    Inlet
+    {
+        type patch;
+        faces
+        (
+            (0 3 7 4)
+            (3 8 12 7)
+            (8 11 15 12)
+			
+			(4 7 43 40)
+			(7 12 44 43)
+			(12 15 47 44)
+		);
+    }	   	
+
+    Outlet
+    {
+		type patch;
+		faces
+		(
+			(17 18 22 21)
+			(18 25 29 22)
+			(25 26 30 29)
+			
+			(21 22 50 49)
+			(22 29 53 50)
+			(29 30 54 53)
+		);
+    }
+	
+    Thermowell
+    {
+		type wall;
+		faces
+		(
+			(32 33 37 36)
+			(33 34 38 37)
+			(35 34 38 39)
+			(32 35 39 36)
+			(36 37 38 39)
+			
+//			(36 37 60 60) 
+//			(60 37 38 60) 
+//			(39 60 60 38) 
+//			(36 60 60 39)
+		);
+    }	
+	
+);
+
+
+// ************************************************************************* //
